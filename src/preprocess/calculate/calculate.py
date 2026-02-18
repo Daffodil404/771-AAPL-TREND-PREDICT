@@ -3,10 +3,10 @@ import numpy as np
 from pathlib import Path
 from base import *
 from rolling import *
-# Label Define, eps is 0.002
-# 1. Up: Close > Open + eps
-# 2. Down: Close < Open - eps
-# 3. Flat: |Close - Open| < eps
+# Label rule (eps = 0.002):
+# up: return_rate > eps
+# down: return_rate < -eps
+# flat: otherwise
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]  # repo root (src/preprocess/calculate/ -> 3 up)
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
@@ -16,7 +16,7 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out = df.copy()
     out['intraday_return'] = calculate_intraday_returns(out)
     out['intraday_return_rate'] = calculate_intraday_return_rate(out)
-    out['label'] = calculate_intraday_labels(out)
+    out['intraday_label'] = calculate_intraday_labels(out)
     out['daily_return'] = calculate_daily_return(out)
     out['daily_return_rate'] = calculate_daily_return_rate(out)
     out['daily_label'] = calculate_daily_labels(out)
@@ -33,6 +33,14 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out['body_length'] = calculate_body_length(out)
     out['upper_shadow_length'] = calculate_upper_shadow(out)
     out['lower_shadow_length'] = calculate_lower_shadow(out)
+
+    # Main supervised target: next-day close-to-close trend.
+    out['target_return_next_day'] = calculate_target_next_day_return(out)
+    out['target_return_rate_next_day'] = calculate_target_next_day_return_rate(out)
+    out['target_label_next_day'] = calculate_target_next_day_label(out)
+
+    # Keep `label` as the default training target for compatibility.
+    out['label'] = out['target_label_next_day']
     out.to_csv(output_path, index=False)
 
 def load_data(input_path: Path) -> pd.DataFrame:
