@@ -42,11 +42,11 @@ def calculate_overnight_labels(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def calculate_target_next_day_return(df: pd.DataFrame) -> pd.DataFrame:
-    return df['close'].shift(-1) - df['close']
+    return df['adj_close'].shift(-1) - df['adj_close']
 
 
 def calculate_target_next_day_return_rate(df: pd.DataFrame) -> pd.DataFrame:
-    return df['target_return_next_day'] / df['close']
+    return df['target_return_next_day'] / df['adj_close']
 
 
 def calculate_target_next_day_label(df: pd.DataFrame) -> pd.DataFrame:

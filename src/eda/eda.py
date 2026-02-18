@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]  # repo root (src/ -> 2 up)
@@ -57,8 +58,8 @@ def check_yearly_label_distribution(df: pd.DataFrame) -> pd.DataFrame:
     return yearly_ratio
 
 # Compute baseline accuracy
-# Result: Majority label: up, baseline accuracy: 46.79%
-def compute_baseline(df: pd.DataFrame) -> pd.DataFrame:
+# Result: Majority label: up, baseline accuracy: 46.91%
+def compute_baseline(df: pd.DataFrame) -> float:
     counts = df['target_label_next_day'].value_counts()
     majority_label = counts.idxmax()
     baseline_acc = counts[majority_label] / counts.sum()
@@ -70,9 +71,9 @@ def compute_baseline(df: pd.DataFrame) -> pd.DataFrame:
 # Transition Matrix (prev day → next day):
 # target_label_next_day   down   flat     up
 # prev_label                                
-# down                   44.73   8.62  46.65
-# flat                   44.61  10.99  44.40
-# up                     43.25   9.34  47.40
+# down                   44.63   8.63  46.73
+# flat                   44.90  10.73  44.37
+# up                     43.13   9.30  47.57
 # Nearly independent of the prev day.
 def compute_transition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     df_sorted = df.sort_values(by="date").copy()
@@ -83,14 +84,72 @@ def compute_transition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     print((matrix * 100).round(2).to_string())
     return matrix
 
+
+def show_close_price_trend(df: pd.DataFrame) -> None:
+    # Show only the data
+    formatter = DateFormatter('%Y-%m-%d')
+
+    plt.figure(figsize = (18, 9))
+    plt.plot(range(df.shape[0]), df['close'])
+    plt.xticks(range(0, df.shape[0], 500), df['date'].loc[::500], rotation=45)
+    plt.xlabel('Date', fontsize=18)
+    plt.ylabel('Close price', fontsize=18)
+    plt.title('Close price of Apple\'s shares')
+    plt.gcf().axes[0].xaxis.set_major_formatter(formatter)
+    plt.show()
+
+def show_volume_trend(df: pd.DataFrame) -> None:
+    """Daily volume time series."""
+    formatter = DateFormatter("%Y-%m-%d")
+    fig, ax = plt.subplots(figsize=(18, 9))
+    ax.plot(range(df.shape[0]), df["volume"])
+    ax.set_xticks(range(0, df.shape[0], 500))
+    ax.set_xticklabels(df["date"].iloc[::500], rotation=45)
+    ax.set_xlabel("Date", fontsize=18)
+    ax.set_ylabel("Volume", fontsize=18)
+    ax.set_title("Volume of Apple's shares")
+    ax.xaxis.set_major_formatter(formatter)
+    plt.tight_layout()
+    plt.show()
+
+
+def show_volume_by_year(df: pd.DataFrame) -> None:
+    """Volume aggregated by year (total per year), bar chart."""
+    agg = df.assign(year=df["date"].dt.year).groupby("year")["volume"].sum()
+    fig, ax = plt.subplots(figsize=(12, 5))
+    ax.bar(agg.index.astype(str), agg.values, color="steelblue", edgecolor="navy", alpha=0.8)
+    ax.set_xlabel("Year", fontsize=18)
+    ax.set_ylabel("Total volume", fontsize=18)
+    ax.set_title("Volume of Apple's shares (by year)")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def show_volume_by_month(df: pd.DataFrame) -> None:
+    """Volume aggregated by month (total per month), line chart."""
+    agg = df.assign(ym=df["date"].dt.to_period("M")).groupby("ym")["volume"].sum()
+    agg.index = agg.index.to_timestamp()
+    fig, ax = plt.subplots(figsize=(14, 5))
+    ax.plot(agg.index, agg.values)
+    ax.xaxis.set_major_formatter(DateFormatter("%Y-%m"))
+    ax.set_xlabel("Date", fontsize=18)
+    ax.set_ylabel("Total volume", fontsize=18)
+    ax.set_title("Volume of Apple's shares (by month)")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
 def main() -> None:
     input_path = PROCESSED_DIR / "aapl_processed.csv"
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
-
     df = pd.read_csv(input_path)
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df = df.dropna(subset=["date", "target_label_next_day"])
 
+    show_close_price_trend(df)
+    show_volume_by_year(df)
+    show_volume_by_month(df)
     check_overall_label_distribution(df)
     check_yearly_label_distribution(df)
     compute_baseline(df)

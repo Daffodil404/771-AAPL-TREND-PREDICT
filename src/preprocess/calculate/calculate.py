@@ -34,7 +34,7 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out['upper_shadow_length'] = calculate_upper_shadow(out)
     out['lower_shadow_length'] = calculate_lower_shadow(out)
 
-    # Main supervised target: next-day close-to-close trend.
+    # Main supervised target: next-day adjusted-close-to-adjusted-close trend.
     out['target_return_next_day'] = calculate_target_next_day_return(out)
     out['target_return_rate_next_day'] = calculate_target_next_day_return_rate(out)
     out['target_label_next_day'] = calculate_target_next_day_label(out)
