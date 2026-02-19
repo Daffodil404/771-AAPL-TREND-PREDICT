@@ -2,6 +2,8 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.graphics.tsaplots import plot_acf
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]  # repo root (src/ -> 2 up)
@@ -84,6 +86,20 @@ def compute_transition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     print((matrix * 100).round(2).to_string())
     return matrix
 
+# ADF Test short for Augmented Dickey-Fuller test
+# Check the stationarity of the time series
+def adf_test(series: pd.Series, name: str) -> dict:
+    s = series.dropna()
+    stat, pvalue, usedlag, nobs, crit, icbest = adfuller(s, autolag="AIC")
+    print(f"\nADF Test: {name}")
+    print(f"  test statistic = {stat:.4f}")
+    print(f"  p-value        = {pvalue:.4g}")
+    print(f"  used lag       = {usedlag}")
+    print(f"  nobs           = {nobs}")
+    print("  critical values:")
+    for k, v in crit.items():
+        print(f"    {k}: {v:.4f}")
+    return {"stat": stat, "pvalue": pvalue, "usedlag": usedlag, "nobs": nobs, "crit": crit, "icbest": icbest}
 
 def show_close_price_trend(df: pd.DataFrame) -> None:
     # Show only the data
@@ -140,6 +156,17 @@ def show_volume_by_month(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.show()
 
+def show_acf_of_squared_daily_return(df: pd.DataFrame) -> None:
+    fig, ax = plt.subplots(figsize=(14, 6))
+    plot_acf(df["daily_return_rate"].dropna() ** 2, ax=ax, lags=40)
+    ax.set_title("ACF of squared daily return (volatility)", fontsize=16)
+    ax.set_xlabel("Lag", fontsize=14)
+    ax.set_ylabel("Autocorrelation", fontsize=14)
+    if ax.get_legend():
+        ax.get_legend().set_fontsize(12)
+    plt.tight_layout()
+    plt.show()
+
 def main() -> None:
     input_path = PROCESSED_DIR / "aapl_processed.csv"
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
@@ -154,6 +181,12 @@ def main() -> None:
     check_yearly_label_distribution(df)
     compute_baseline(df)
     compute_transition_matrix(df)
+    # 1) price stationarity (建议用 adj_close)
+    adf_test(df["adj_close"], "adj_close")
+
+    # 2) return stationarity（你已算过 daily_return_rate）
+    adf_test(df["daily_return_rate"], "daily_return_rate")
+    show_acf_of_squared_daily_return(df)
 
 
 if __name__ == "__main__":

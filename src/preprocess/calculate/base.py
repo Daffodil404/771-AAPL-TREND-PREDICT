@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-EPS = 0.002
+EPS = 0.005
 
 
 def classify_three_way(rate: pd.Series) -> pd.Series:
