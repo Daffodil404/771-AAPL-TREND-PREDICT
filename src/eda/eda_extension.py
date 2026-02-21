@@ -228,7 +228,7 @@ def build_html_report(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Extended EDA for 771_project")
     parser.add_argument("--input", type=str, default=str(PROCESSED_DIR / "aapl_processed.csv"))
-    parser.add_argument("--thresholds", type=float, nargs="+", default=[0.03, 0.05, 0.10])
+    parser.add_argument("--thresholds", type=float, nargs="+", default=[0.002, 0.005, 0.01], help="flat threshold in decimal, e.g. 0.002 = 0.2%%")
     parser.add_argument("--train_ratio", type=float, default=0.7)
     parser.add_argument("--val_ratio", type=float, default=0.15)
     parser.add_argument("--report_name", type=str, default="eda_extension_report.html")

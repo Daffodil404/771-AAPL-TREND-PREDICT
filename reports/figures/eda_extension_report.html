@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset='utf-8'><title>EDA Report</title></head>
+<body style='font-family:Arial,sans-serif;max-width:1100px;margin:24px auto;padding:0 12px'>
+<h1>AAPL Trend EDA Report (Auto-generated)</h1>
+<h2>1) Flat Threshold Sensitivity</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>flat_threshold</th>
+      <th>up_pct</th>
+      <th>down_pct</th>
+      <th>flat_pct</th>
+      <th>majority_baseline_acc</th>
+      <th>majority_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.002</td>
+      <td>46.7864</td>
+      <td>44.0292</td>
+      <td>9.1844</td>
+      <td>0.4679</td>
+      <td>up</td>
+    </tr>
+    <tr>
+      <td>0.005</td>
+      <td>41.3200</td>
+      <td>38.4283</td>
+      <td>20.2517</td>
+      <td>0.4132</td>
+      <td>up</td>
+    </tr>
+    <tr>
+      <td>0.010</td>
+      <td>32.0588</td>
+      <td>29.4361</td>
+      <td>38.5051</td>
+      <td>0.3851</td>
+      <td>flat</td>
+    </tr>
+  </tbody>
+</table>
+<div style="margin:16px 0"><img src="eda_threshold_class_composition.png" style="max-width:100%;border:1px solid #ddd;border-radius:8px"/></div>
+<div style="margin:16px 0"><img src="eda_threshold_baseline_accuracy.png" style="max-width:100%;border:1px solid #ddd;border-radius:8px"/></div>
+<h2>2) Feature Distribution by Label</h2>
+<div style="margin:16px 0"><img src="eda_box_daily_return_rate_by_label.png" style="max-width:100%;border:1px solid #ddd;border-radius:8px"/></div>
+<div style="margin:16px 0"><img src="eda_hist_daily_return_rate_by_label.png" style="max-width:100%;border:1px solid #ddd;border-radius:8px"/></div>
+<h2>3) Time Split Overview</h2>
+<div style="margin:16px 0"><img src="eda_time_split_overview.png" style="max-width:100%;border:1px solid #ddd;border-radius:8px"/></div>
+</body></html>
