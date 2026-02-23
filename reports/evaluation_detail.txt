@@ -1,0 +1,95 @@
+
+=== random ===
+Accuracy: 0.3282
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        182         68      204
+true_flat        206         82      215
+true_up          252        103      248
+
+              precision    recall  f1-score   support
+
+        down       0.28      0.40      0.33       454
+        flat       0.32      0.16      0.22       503
+          up       0.37      0.41      0.39       603
+
+    accuracy                           0.33      1560
+   macro avg       0.33      0.33      0.31      1560
+weighted avg       0.33      0.33      0.32      1560
+
+
+=== momentum ===
+Accuracy: 0.3526
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        144        134      176
+true_flat        126        181      196
+true_up          191        187      225
+
+              precision    recall  f1-score   support
+
+        down       0.31      0.32      0.31       454
+        flat       0.36      0.36      0.36       503
+          up       0.38      0.37      0.38       603
+
+    accuracy                           0.35      1560
+   macro avg       0.35      0.35      0.35      1560
+weighted avg       0.35      0.35      0.35      1560
+
+
+=== ma ===
+Accuracy: 0.3699
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        183          0      271
+true_flat        116          0      387
+true_up          209          0      394
+
+              precision    recall  f1-score   support
+
+        down       0.36      0.40      0.38       454
+        flat       0.00      0.00      0.00       503
+          up       0.37      0.65      0.48       603
+
+    accuracy                           0.37      1560
+   macro avg       0.24      0.35      0.29      1560
+weighted avg       0.25      0.37      0.29      1560
+
+
+=== logreg_multinomial ===
+Accuracy: 0.4154
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          4         86      364
+true_flat          3        160      340
+true_up            3        116      484
+
+              precision    recall  f1-score   support
+
+        down       0.40      0.01      0.02       454
+        flat       0.44      0.32      0.37       503
+          up       0.41      0.80      0.54       603
+
+    accuracy                           0.42      1560
+   macro avg       0.42      0.38      0.31      1560
+weighted avg       0.42      0.42      0.33      1560
+
+
+=== logreg_ovr ===
+Accuracy: 0.4096
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          3         73      378
+true_flat          3        138      362
+true_up            3        102      498
+
+              precision    recall  f1-score   support
+
+        down       0.33      0.01      0.01       454
+        flat       0.44      0.27      0.34       503
+          up       0.40      0.83      0.54       603
+
+    accuracy                           0.41      1560
+   macro avg       0.39      0.37      0.30      1560
+weighted avg       0.39      0.41      0.32      1560
+
