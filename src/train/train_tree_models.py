@@ -11,12 +11,14 @@ from common import (
 )
 
 
-# Step 1: multiple RF configs (max_depth, min_samples_leaf)
+# RF configs tuned to recover flat while keeping accuracy reasonable.
 RF_CONFIGS = [
-    {"name": "RF1", "max_depth": 3, "min_samples_leaf": 1},
-    {"name": "RF2", "max_depth": 5, "min_samples_leaf": 1},
-    {"name": "RF3", "max_depth": 8, "min_samples_leaf": 1},
-    {"name": "RF4", "max_depth": 8, "min_samples_leaf": 5},
+    {"name": "RF1", "max_depth": 5, "min_samples_leaf": 1, "class_weight": "balanced"},
+    {"name": "RF2", "max_depth": 8, "min_samples_leaf": 1, "class_weight": "balanced"},
+    {"name": "RF3", "max_depth": 10, "min_samples_leaf": 2, "class_weight": "balanced"},
+    {"name": "RF4", "max_depth": None, "min_samples_leaf": 2, "class_weight": "balanced_subsample"},
+    {"name": "RF5", "max_depth": 6, "min_samples_leaf": 1, "class_weight": None},
+    {"name": "RF6", "max_depth": 8, "min_samples_leaf": 2, "class_weight": None},
 ]
 
 
@@ -26,10 +28,11 @@ def train_random_forest(
     test_df: pd.DataFrame,
     *,
     random_state: int = 42,
-    class_weight: str = "balanced",
-    n_estimators: int = 100,
+    class_weight: str = None,
+    n_estimators: int = 300,
     max_depth: int | None = None,
     min_samples_leaf: int = 1,
+    max_features: str | None = "sqrt",
 ) -> pd.DataFrame:
     """Fit Random Forest on train, predict on test; return pred DataFrame (date, true_label, pred_label)."""
     X_train = train_df[FEATURE_COLUMNS]
@@ -43,6 +46,7 @@ def train_random_forest(
         class_weight=class_weight,
         max_depth=max_depth,
         min_samples_leaf=min_samples_leaf,
+        max_features=max_features,
     )
     model.fit(X_train, y_train)
     pred_label = model.predict(X_test)
@@ -60,13 +64,21 @@ def main() -> None:
     for cfg in RF_CONFIGS:
         name = cfg["name"]
         pred_df = train_random_forest(
-            train_df, val_df, test_df,
+            train_df,
+            val_df,
+            test_df,
             max_depth=cfg["max_depth"],
             min_samples_leaf=cfg["min_samples_leaf"],
+            class_weight=cfg["class_weight"],
         )
         out_path = RESULTS_DIR / f"pred_{name.lower()}.csv"
         pred_df.to_csv(out_path, index=False)
-        print(f"Saved {out_path} ({name}: max_depth={cfg['max_depth']}, min_samples_leaf={cfg['min_samples_leaf']})")
+        print(
+            f"Saved {out_path} "
+            f"({name}: max_depth={cfg['max_depth']}, "
+            f"min_samples_leaf={cfg['min_samples_leaf']}, "
+            f"class_weight={cfg['class_weight']})"
+        )
 
 
 if __name__ == "__main__":

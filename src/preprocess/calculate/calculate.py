@@ -33,6 +33,11 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out['body_length'] = calculate_body_length(out)
     out['upper_shadow_length'] = calculate_upper_shadow(out)
     out['lower_shadow_length'] = calculate_lower_shadow(out)
+    out['return_3'] = calculate_return_rate_n(out, 3)
+    out['return_5'] = calculate_return_rate_n(out, 5)
+    out['rsi_14'] = calculate_rsi_14(out)
+    out['macd'] = calculate_macd(out)
+    out['ma_ratio_5_21'] = calculate_ma_ratio_5_21(out)
 
     # Main supervised target: next-day adjusted-close-to-adjusted-close trend.
     out['target_return_next_day'] = calculate_target_next_day_return(out)

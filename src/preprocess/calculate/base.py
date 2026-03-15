@@ -61,3 +61,33 @@ def calculate_upper_shadow(df: pd.DataFrame) -> pd.DataFrame:
 
 def calculate_lower_shadow(df: pd.DataFrame) -> pd.DataFrame:
     return np.minimum(df['open'], df['close']) - df['low']
+
+def calculate_return_rate_n(df: pd.DataFrame, n: int) -> pd.Series:
+    """N-day return rate based on close price."""
+    return df["close"].pct_change(n)
+
+def calculate_rsi_14(df: pd.DataFrame) -> pd.Series:
+    """14-day RSI based on close price."""
+    close = df["close"]
+    delta = close.diff()
+    gain = delta.clip(lower=0)
+    loss = -delta.clip(upper=0)
+    avg_gain = gain.rolling(window=14, min_periods=14).mean()
+    avg_loss = loss.rolling(window=14, min_periods=14).mean()
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
+def calculate_macd(df: pd.DataFrame) -> pd.Series:
+    """MACD line (EMA12 - EMA26) based on close price."""
+    close = df["close"]
+    ema12 = close.ewm(span=12, adjust=False).mean()
+    ema26 = close.ewm(span=26, adjust=False).mean()
+    return ema12 - ema26
+
+def calculate_ma_ratio_5_21(df: pd.DataFrame) -> pd.Series:
+    """MA5 / MA21 ratio based on close price."""
+    close = df["close"]
+    ma5 = close.rolling(5, min_periods=1).mean()
+    ma21 = close.rolling(21, min_periods=1).mean()
+    return ma5 / ma21

@@ -17,8 +17,14 @@ FEATURE_COLUMNS = [
     "overnight_return_rate",
     "volatility_5",
     "volatility_10",
+    "volatility_20",
     "volume_5",
     "body_length",
+    "return_3",
+    "return_5",
+    "rsi_14",
+    "macd",
+    "ma_ratio_5_21",
 ]
 
 

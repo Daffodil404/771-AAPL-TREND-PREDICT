@@ -1,5 +1,4 @@
 date,true_label,pred_label
-2016-01-13,up,down
 2016-01-14,down,up
 2016-01-15,flat,down
 2016-01-19,flat,flat
