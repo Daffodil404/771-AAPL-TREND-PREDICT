@@ -1,31 +1,17 @@
 """Train and evaluate baseline methods: random, momentum, moving-average."""
 
-from pathlib import Path
 import numpy as np
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
-RESULTS_DIR = PROJECT_ROOT / "results"
+from common import (
+    PROCESSED_DIR,
+    RESULTS_DIR,
+    TARGET_COLUMN,
+    load_features_and_split,
+)
 
-TARGET_COLUMN = "target_label_next_day"
 # 与 base.py 一致，用于 momentum 的 up/down/flat 分界
 EPS = 0.005
-
-# 与 eda_extension 一致
-TRAIN_RATIO = 0.7
-TEST_RATIO = 0.15
-VAL_RATIO = 0.15  
-
-
-def time_split(df: pd.DataFrame):
-    n = len(df)
-    i_train = int(n * TRAIN_RATIO)
-    i_val = int(n * (TRAIN_RATIO + VAL_RATIO))
-    train = df.iloc[:i_train]
-    val = df.iloc[i_train:i_val]
-    test = df.iloc[i_val:]
-    return train, val, test
 
 
 def train_random_baseline(test_df: pd.DataFrame, train_df: pd.DataFrame, seed: int = 42) -> pd.DataFrame:
@@ -69,13 +55,7 @@ def train_moving_average_baseline(
 
 
 def main() -> None:
-    # 1) 读特征表，按时间排序并划分
-    feature_path = PROCESSED_DIR / "aapl_features.csv"
-    df = pd.read_csv(feature_path)
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
-    df = df.dropna().sort_values("date").reset_index(drop=True)
-
-    train_df, val_df, test_df = time_split(df)
+    train_df, val_df, test_df = load_features_and_split()
     print(f"Train: {len(train_df)}, Val: {len(val_df)}, Test: {len(test_df)}")
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

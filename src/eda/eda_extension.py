@@ -187,6 +187,56 @@ def plot_time_split_overview(df: pd.DataFrame, train_ratio=0.7, val_ratio=0.15) 
     return out
 
 
+def plot_return_rate_split_overview(df: pd.DataFrame, train_ratio=0.7, val_ratio=0.15) -> Path | None:
+    """与 plot_time_split_overview 同逻辑，纵轴改为 daily_return_rate（收益率随时间 + train/val/test 背景）."""
+    if "date" not in df.columns:
+        raise ValueError("Column 'date' not found in processed data.")
+    y_col = "daily_return_rate"
+    if y_col not in df.columns:
+        print(f"Column '{y_col}' not found. Skipping return rate split overview.")
+        return None
+
+    ts = df.sort_values("date").reset_index(drop=True).copy()
+    n = len(ts)
+    if n == 0:
+        print("No rows to split. Skipping return rate split overview.")
+        return None
+
+    i_train = int(n * train_ratio)
+    i_val = int(n * (train_ratio + val_ratio))
+    ts["idx"] = np.arange(n)
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(ts["idx"], ts[y_col], color="#1f77b4", linewidth=0.8, alpha=0.9, label=y_col)
+
+    ax.axvspan(0, i_train, alpha=0.10, color="green", label="train")
+    ax.axvspan(i_train, i_val, alpha=0.10, color="orange", label="val")
+    ax.axvspan(i_val, n - 1, alpha=0.10, color="red", label="test")
+
+    def safe_date(i: int) -> str:
+        i = min(max(i, 0), n - 1)
+        return str(ts.loc[i, "date"].date())
+
+    ax.set_title(
+        "Daily return rate over time (train/val/test split)\n"
+        f"train: {safe_date(0)} ~ {safe_date(i_train-1)}, "
+        f"val: {safe_date(i_train)} ~ {safe_date(i_val-1)}, "
+        f"test: {safe_date(i_val)} ~ {safe_date(n-1)}"
+    )
+    ax.set_xlabel("time index")
+    ax.set_ylabel(y_col)
+    ax.axhline(0, color="gray", linestyle="--", linewidth=0.8)
+    ax.legend(loc="upper right")
+    ax.grid(alpha=0.2)
+    plt.tight_layout()
+
+    out = FIGURE_DIR / "eda_return_rate_split_overview.png"
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    print(f"Saved plot: {out}")
+    return out
+
+
 def build_html_report(
     summary: pd.DataFrame,
     threshold_plots: list[Path],
@@ -251,6 +301,7 @@ def main() -> None:
 
     feature_plots = plot_feature_distribution_by_label(df, label_col="target_label_next_day")
     split_plot = plot_time_split_overview(df, train_ratio=args.train_ratio, val_ratio=args.val_ratio)
+    plot_return_rate_split_overview(df, train_ratio=args.train_ratio, val_ratio=args.val_ratio)
 
     report_path = FIGURE_DIR / args.report_name
     build_html_report(summary, threshold_plots, feature_plots, split_plot, report_path)

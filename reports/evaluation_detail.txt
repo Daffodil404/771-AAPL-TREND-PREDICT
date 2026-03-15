@@ -93,3 +93,79 @@ true_up            3        102      498
    macro avg       0.39      0.37      0.30      1560
 weighted avg       0.39      0.41      0.32      1560
 
+
+=== rf1 ===
+Accuracy: 0.3526
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         36        381       37
+true_flat         16        470       17
+true_up           34        525       44
+
+              precision    recall  f1-score   support
+
+        down       0.42      0.08      0.13       454
+        flat       0.34      0.93      0.50       503
+          up       0.45      0.07      0.13       603
+
+    accuracy                           0.35      1560
+   macro avg       0.40      0.36      0.25      1560
+weighted avg       0.41      0.35      0.25      1560
+
+
+=== rf2 ===
+Accuracy: 0.3647
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         46        326       82
+true_flat         25        415       63
+true_up           43        452      108
+
+              precision    recall  f1-score   support
+
+        down       0.40      0.10      0.16       454
+        flat       0.35      0.83      0.49       503
+          up       0.43      0.18      0.25       603
+
+    accuracy                           0.36      1560
+   macro avg       0.39      0.37      0.30      1560
+weighted avg       0.39      0.36      0.30      1560
+
+
+=== rf3 ===
+Accuracy: 0.3628
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         97        101      256
+true_flat         65        135      303
+true_up           97        172      334
+
+              precision    recall  f1-score   support
+
+        down       0.37      0.21      0.27       454
+        flat       0.33      0.27      0.30       503
+          up       0.37      0.55      0.45       603
+
+    accuracy                           0.36      1560
+   macro avg       0.36      0.35      0.34      1560
+weighted avg       0.36      0.36      0.35      1560
+
+
+=== rf4 ===
+Accuracy: 0.3455
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        104        160      190
+true_flat         75        192      236
+true_up          118        242      243
+
+              precision    recall  f1-score   support
+
+        down       0.35      0.23      0.28       454
+        flat       0.32      0.38      0.35       503
+          up       0.36      0.40      0.38       603
+
+    accuracy                           0.35      1560
+   macro avg       0.35      0.34      0.34      1560
+weighted avg       0.35      0.35      0.34      1560
+
