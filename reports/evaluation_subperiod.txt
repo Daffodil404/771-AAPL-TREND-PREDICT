@@ -1,0 +1,400 @@
+
+=== logreg_multinomial | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         21         35       14
+true_flat         16         52       21
+true_up           30         39       16
+
+=== logreg_multinomial | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         47         85       58
+true_flat         34        178       65
+true_up           48        142       97
+
+=== logreg_multinomial | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         15         32       43
+true_flat          1         26       22
+true_up           15         37       62
+
+=== logreg_multinomial | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         17         18       46
+true_flat         10         27       38
+true_up           21         32       43
+
+=== logreg_multinomial | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          4          2       17
+true_flat          2          2        9
+true_up            8          0       12
+
+=== logreg_ovr | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         20         31       19
+true_flat         16         48       25
+true_up           29         36       20
+
+=== logreg_ovr | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         45         73       72
+true_flat         33        155       89
+true_up           43        126      118
+
+=== logreg_ovr | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         12         23       55
+true_flat          1         20       28
+true_up           15         32       67
+
+=== logreg_ovr | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         16         11       54
+true_flat          5         23       47
+true_up           20         27       49
+
+=== logreg_ovr | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          4          2       17
+true_flat          2          2        9
+true_up            7          0       13
+
+=== rf_best_fast | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          9         48       13
+true_flat          6         72       11
+true_up            8         60       17
+
+=== rf_best_fast | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         31        120       39
+true_flat         28        219       30
+true_up           34        198       55
+
+=== rf_best_fast | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         42         21       27
+true_flat         13         20       16
+true_up           37         38       39
+
+=== rf_best_fast | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         33         31       17
+true_flat         22         42       11
+true_up           33         43       20
+
+=== rf_best_fast | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         12          6        5
+true_flat          5          4        4
+true_up            9          3        8
+
+=== rf_best_slow | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          8         52       10
+true_flat          6         75        8
+true_up            5         66       14
+
+=== rf_best_slow | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         24        135       31
+true_flat         15        249       13
+true_up           31        223       33
+
+=== rf_best_slow | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         19         47       24
+true_flat          5         28       16
+true_up           18         60       36
+
+=== rf_best_slow | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         18         61        2
+true_flat          8         63        4
+true_up           18         69        9
+
+=== rf_best_slow | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         11          8        4
+true_flat          2          7        4
+true_up            7          7        6
+
+=== rf1 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          9         52        9
+true_flat          3         79        7
+true_up            8         71        6
+
+=== rf1 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         26        146       18
+true_flat          8        252       17
+true_up           18        242       27
+
+=== rf1 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         23         43       24
+true_flat          4         29       16
+true_up           21         62       31
+
+=== rf1 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          8         72        1
+true_flat          7         66        2
+true_up           11         78        7
+
+=== rf1 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down          3         19        1
+true_flat          1         11        1
+true_up            5         12        3
+
+=== rf2 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         17         14       39
+true_flat         19         26       44
+true_up           23         27       35
+
+=== rf2 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         50         42       98
+true_flat         74         74      129
+true_up           82         77      128
+
+=== rf2 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         28         24       38
+true_flat          3         17       29
+true_up           24         33       57
+
+=== rf2 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         30         20       31
+true_flat         22         23       30
+true_up           26         23       47
+
+=== rf2 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         11          5        7
+true_flat          7          3        3
+true_up           11          2        7
+
+=== rf3 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         23          7       40
+true_flat         30          4       55
+true_up           33          8       44
+
+=== rf3 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         67         13      110
+true_flat        120          6      151
+true_up          115         19      153
+
+=== rf3 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         32          8       50
+true_flat         18          1       30
+true_up           37          5       72
+
+=== rf3 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         37          3       41
+true_flat         36          2       37
+true_up           45          5       46
+
+=== rf3 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         14          1        8
+true_flat          5          0        8
+true_up           12          0        8
+
+=== rf4 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         28          1       41
+true_flat         33          0       56
+true_up           39          1       45
+
+=== rf4 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         90          0      100
+true_flat        130          0      147
+true_up          128          1      158
+
+=== rf4 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         51          0       39
+true_flat         20          0       29
+true_up           50          0       64
+
+=== rf4 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         52          0       29
+true_flat         42          0       33
+true_up           55          0       41
+
+=== rf4 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         16          0        7
+true_flat          6          0        7
+true_up           12          0        8
+
+=== rf5 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         19          0       51
+true_flat         15          0       74
+true_up           22          0       63
+
+=== rf5 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         51          0      139
+true_flat         47          0      230
+true_up           71          0      216
+
+=== rf5 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         24          0       66
+true_flat          4          0       45
+true_up           29          0       85
+
+=== rf5 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         35          0       46
+true_flat         32          0       43
+true_up           36          0       60
+
+=== rf5 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         12          0       11
+true_flat          5          0        8
+true_up           12          0        8
+
+=== rf6 | 2016 ===
+n=244
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         23          0       47
+true_flat         17          0       72
+true_up           22          0       63
+
+=== rf6 | 2017-2019_bull ===
+n=754
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         59          0      131
+true_flat         66          0      211
+true_up           82          0      205
+
+=== rf6 | 2020_covid ===
+n=253
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         40          0       50
+true_flat         11          0       38
+true_up           39          0       75
+
+=== rf6 | 2021_tech_boom ===
+n=252
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         44          0       37
+true_flat         33          0       42
+true_up           48          0       48
+
+=== rf6 | 2022_rate_hikes ===
+n=56
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         17          0        6
+true_flat          6          0        7
+true_up           14          0        6
