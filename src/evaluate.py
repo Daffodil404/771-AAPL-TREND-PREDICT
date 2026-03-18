@@ -19,6 +19,7 @@ PRED_FILES = {
     "ma": "pred_ma.csv",
     "logreg_multinomial": "pred_logreg_multinomial.csv",
     "logreg_ovr": "pred_logreg_ovr.csv",
+    "lgbm": "pred_lgbm.csv",
     "rf": "pred_rf.csv",
     "rf1": "pred_rf1.csv",
     "rf2": "pred_rf2.csv",
