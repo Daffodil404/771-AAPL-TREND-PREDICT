@@ -6,6 +6,7 @@ from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
     classification_report,
+    recall_score,
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -33,12 +34,15 @@ PRED_FILES = {
 }
 
 
-def evaluate_one(pred_path: Path) -> tuple[float, pd.DataFrame, str]:
-    """读一个预测文件，返回 (accuracy, confusion_df, classification_report_str)。"""
+def evaluate_one(pred_path: Path) -> tuple[float, float, float, pd.DataFrame, str]:
+    """读一个预测文件，返回 (accuracy, macro_recall, min_recall, confusion_df, report_str)。"""
     df = pd.read_csv(pred_path)
     y_true = df["true_label"]
     y_pred = df["pred_label"]
     acc = accuracy_score(y_true, y_pred)
+    macro_recall = recall_score(y_true, y_pred, labels=["down", "flat", "up"], average="macro", zero_division=0)
+    per_class_recall = recall_score(y_true, y_pred, labels=["down", "flat", "up"], average=None, zero_division=0)
+    min_recall = float(per_class_recall.min()) if len(per_class_recall) else 0.0
     cm = confusion_matrix(y_true, y_pred, labels=["down", "flat", "up"])
     cm_df = pd.DataFrame(
         cm,
@@ -46,13 +50,14 @@ def evaluate_one(pred_path: Path) -> tuple[float, pd.DataFrame, str]:
         columns=["pred_down", "pred_flat", "pred_up"],
     )
     report_str = classification_report(y_true, y_pred, labels=["down", "flat", "up"], zero_division=0)
-    return acc, cm_df, report_str
+    return acc, macro_recall, min_recall, cm_df, report_str
 
 
 def main() -> None:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
     rows = []
+    score_rows = []
     all_reports = []
 
     for name, filename in PRED_FILES.items():
@@ -60,10 +65,23 @@ def main() -> None:
         if not path.exists():
             print(f"Skip (not found): {path}")
             continue
-        acc, cm_df, report_str = evaluate_one(path)
+        acc, macro_recall, min_recall, cm_df, report_str = evaluate_one(path)
+        score = 0.5 * acc + 0.3 * macro_recall + 0.2 * min_recall
         rows.append({"method": name, "accuracy": acc})
+        score_rows.append(
+            {
+                "method": name,
+                "accuracy": acc,
+                "macro_recall": macro_recall,
+                "min_recall": min_recall,
+                "score": score,
+            }
+        )
         print(f"\n=== {name} ===")
         print(f"Accuracy: {acc:.4f}")
+        print(f"Macro Recall: {macro_recall:.4f}")
+        print(f"Min Recall: {min_recall:.4f}")
+        print(f"Score: {score:.4f}")
         print("Confusion matrix:")
         print(cm_df.to_string())
         print("\nClassification report (precision / recall / F1):")
@@ -79,6 +97,15 @@ def main() -> None:
         print(acc_df.to_string(index=False))
         acc_df.to_csv(REPORTS_DIR / "evaluation_accuracy.csv", index=False)
         print(f"\nSaved {REPORTS_DIR / 'evaluation_accuracy.csv'}")
+
+    score_df = pd.DataFrame(score_rows)
+    if not score_df.empty:
+        score_df = score_df.sort_values("score", ascending=False)
+        print("\n" + "=" * 50)
+        print("Score comparison")
+        print(score_df.to_string(index=False))
+        score_df.to_csv(REPORTS_DIR / "evaluation_score.csv", index=False)
+        print(f"\nSaved {REPORTS_DIR / 'evaluation_score.csv'}")
 
     # 可选：把每个方法的混淆矩阵和 report 也存一份
     with open(REPORTS_DIR / "evaluation_detail.txt", "w", encoding="utf-8") as f:
