@@ -94,6 +94,25 @@ true_up          123        234      245
 weighted avg       0.40      0.40      0.39      1557
 
 
+=== ensemble_lr_svm ===
+Accuracy: 0.3976
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        111        169      173
+true_flat         66        285      151
+true_up          133        246      223
+
+              precision    recall  f1-score   support
+
+        down       0.36      0.25      0.29       453
+        flat       0.41      0.57      0.47       502
+          up       0.41      0.37      0.39       602
+
+    accuracy                           0.40      1557
+   macro avg       0.39      0.39      0.38      1557
+weighted avg       0.39      0.40      0.39      1557
+
+
 === svm_linear ===
 Accuracy: 0.3943
 Confusion matrix:
