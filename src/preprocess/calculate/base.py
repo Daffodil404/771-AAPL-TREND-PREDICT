@@ -53,6 +53,18 @@ def calculate_target_next_day_label(df: pd.DataFrame) -> pd.DataFrame:
     return classify_three_way(df['target_return_rate_next_day'])
 
 
+def calculate_target_next_3d_return(df: pd.DataFrame) -> pd.DataFrame:
+    return df['adj_close'].shift(-3) - df['adj_close']
+
+
+def calculate_target_next_3d_return_rate(df: pd.DataFrame) -> pd.DataFrame:
+    return df['target_return_next_3d'] / df['adj_close']
+
+
+def calculate_target_next_3d_label(df: pd.DataFrame) -> pd.DataFrame:
+    return classify_three_way(df['target_return_rate_next_3d'])
+
+
 def calculate_body_length(df: pd.DataFrame) -> pd.DataFrame:
     return abs(df['open'] - df['close'])
 

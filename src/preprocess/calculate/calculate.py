@@ -46,6 +46,9 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out['target_return_next_day'] = calculate_target_next_day_return(out)
     out['target_return_rate_next_day'] = calculate_target_next_day_return_rate(out)
     out['target_label_next_day'] = calculate_target_next_day_label(out)
+    out['target_return_next_3d'] = calculate_target_next_3d_return(out)
+    out['target_return_rate_next_3d'] = calculate_target_next_3d_return_rate(out)
+    out['target_label_next_3d'] = calculate_target_next_3d_label(out)
 
     # Keep `label` as the default training target for compatibility.
     out['label'] = out['target_label_next_day']
