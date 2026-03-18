@@ -9,6 +9,13 @@ RESULTS_DIR = PROJECT_ROOT / "results" / "quantile"
 REPORTS_DIR = PROJECT_ROOT / "reports" / "quantile"
 
 PRED_FILES = {
+    "random": "pred_random.csv",
+    "momentum": "pred_momentum.csv",
+    "ma": "pred_ma.csv",
+    "logreg_multinomial": "pred_logreg_multinomial.csv",
+    "logreg_ovr": "pred_logreg_ovr.csv",
+    "svm_linear": "pred_svm_linear.csv",
+    "ensemble_lr_svm": "pred_ensemble.csv",
     "rf5": "pred_rf5.csv",
     "rf6": "pred_rf6.csv",
     "rf_best_fast": "pred_rf_best_fast.csv",
