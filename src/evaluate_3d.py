@@ -14,6 +14,7 @@ PRED_FILES = {
     "ma": "pred_ma.csv",
     "logreg_multinomial": "pred_logreg_multinomial.csv",
     "logreg_ovr": "pred_logreg_ovr.csv",
+    "svm_linear": "pred_svm_linear.csv",
     "rf_best_fast": "pred_rf_best_fast.csv",
     "rf_best_slow": "pred_rf_best_slow.csv",
     "rf5": "pred_rf5.csv",

@@ -94,6 +94,25 @@ true_up          123        234      245
 weighted avg       0.40      0.40      0.39      1557
 
 
+=== svm_linear ===
+Accuracy: 0.3943
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        109        103      241
+true_flat         70        186      246
+true_up          123        160      319
+
+              precision    recall  f1-score   support
+
+        down       0.36      0.24      0.29       453
+        flat       0.41      0.37      0.39       502
+          up       0.40      0.53      0.45       602
+
+    accuracy                           0.39      1557
+   macro avg       0.39      0.38      0.38      1557
+weighted avg       0.39      0.39      0.39      1557
+
+
 === lgbm ===
 Accuracy: 0.3610
 Confusion matrix:
@@ -187,4 +206,42 @@ true_up          171        253      178
     accuracy                           0.38      1557
    macro avg       0.39      0.39      0.38      1557
 weighted avg       0.39      0.38      0.38      1557
+
+
+=== gb ===
+Accuracy: 0.3340
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        259          8      186
+true_flat        256          5      241
+true_up          335         11      256
+
+              precision    recall  f1-score   support
+
+        down       0.30      0.57      0.40       453
+        flat       0.21      0.01      0.02       502
+          up       0.37      0.43      0.40       602
+
+    accuracy                           0.33      1557
+   macro avg       0.30      0.34      0.27      1557
+weighted avg       0.30      0.33      0.28      1557
+
+
+=== hgb_best_fast ===
+Accuracy: 0.3616
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        157        232       64
+true_flat        120        323       59
+true_up          172        347       83
+
+              precision    recall  f1-score   support
+
+        down       0.35      0.35      0.35       453
+        flat       0.36      0.64      0.46       502
+          up       0.40      0.14      0.21       602
+
+    accuracy                           0.36      1557
+   macro avg       0.37      0.38      0.34      1557
+weighted avg       0.37      0.36      0.33      1557
 

@@ -94,6 +94,25 @@ true_up          164        596       18
 weighted avg       0.36      0.22      0.16      1557
 
 
+=== svm_linear ===
+Accuracy: 0.3346
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        138        207      167
+true_flat         63        100      104
+true_up          200        295      283
+
+              precision    recall  f1-score   support
+
+        down       0.34      0.27      0.30       512
+        flat       0.17      0.37      0.23       267
+          up       0.51      0.36      0.42       778
+
+    accuracy                           0.33      1557
+   macro avg       0.34      0.34      0.32      1557
+weighted avg       0.40      0.33      0.35      1557
+
+
 === rf_best_fast ===
 Accuracy: 0.3539
 Confusion matrix:
@@ -111,82 +130,6 @@ true_up          196        240      342
     accuracy                           0.35      1557
    macro avg       0.33      0.32      0.32      1557
 weighted avg       0.39      0.35      0.37      1557
-
-
-=== rf1 ===
-Accuracy: 0.2563
-Confusion matrix:
-           pred_down  pred_flat  pred_up
-true_down         56        352      104
-true_flat         24        206       37
-true_up           70        571      137
-
-              precision    recall  f1-score   support
-
-        down       0.37      0.11      0.17       512
-        flat       0.18      0.77      0.30       267
-          up       0.49      0.18      0.26       778
-
-    accuracy                           0.26      1557
-   macro avg       0.35      0.35      0.24      1557
-weighted avg       0.40      0.26      0.24      1557
-
-
-=== rf2 ===
-Accuracy: 0.4162
-Confusion matrix:
-           pred_down  pred_flat  pred_up
-true_down         79        103      330
-true_flat         29         67      171
-true_up           88        188      502
-
-              precision    recall  f1-score   support
-
-        down       0.40      0.15      0.22       512
-        flat       0.19      0.25      0.21       267
-          up       0.50      0.65      0.56       778
-
-    accuracy                           0.42      1557
-   macro avg       0.36      0.35      0.33      1557
-weighted avg       0.41      0.42      0.39      1557
-
-
-=== rf3 ===
-Accuracy: 0.4143
-Confusion matrix:
-           pred_down  pred_flat  pred_up
-true_down        121         76      315
-true_flat         55         47      165
-true_up          165        136      477
-
-              precision    recall  f1-score   support
-
-        down       0.35      0.24      0.28       512
-        flat       0.18      0.18      0.18       267
-          up       0.50      0.61      0.55       778
-
-    accuracy                           0.41      1557
-   macro avg       0.34      0.34      0.34      1557
-weighted avg       0.40      0.41      0.40      1557
-
-
-=== rf4 ===
-Accuracy: 0.4599
-Confusion matrix:
-           pred_down  pred_flat  pred_up
-true_down        145         19      348
-true_flat         57         11      199
-true_up          187         31      560
-
-              precision    recall  f1-score   support
-
-        down       0.37      0.28      0.32       512
-        flat       0.18      0.04      0.07       267
-          up       0.51      0.72      0.59       778
-
-    accuracy                           0.46      1557
-   macro avg       0.35      0.35      0.33      1557
-weighted avg       0.41      0.46      0.41      1557
 
 
 === rf5 ===
