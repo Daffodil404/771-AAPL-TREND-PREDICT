@@ -1,0 +1,80 @@
+"""Train tree-based models (Random Forest) on quantile-labeled data."""
+
+import pandas as pd
+from typing import Optional
+from sklearn.ensemble import RandomForestClassifier
+
+from common_quantile import (
+    RESULTS_DIR,
+    TARGET_COLUMN,
+    TREE_FEATURE_COLUMNS,
+    load_features_and_split,
+)
+
+
+RF_CONFIGS = [
+    {"name": "RF5", "max_depth": 6, "min_samples_leaf": 1, "class_weight": None},
+    {"name": "RF6", "max_depth": 8, "min_samples_leaf": 2, "class_weight": None},
+]
+
+
+def train_random_forest(
+    train_df: pd.DataFrame,
+    val_df: pd.DataFrame,
+    test_df: pd.DataFrame,
+    *,
+    random_state: int = 42,
+    class_weight: Optional[str] = None,
+    n_estimators: int = 300,
+    max_depth: Optional[int] = None,
+    min_samples_leaf: int = 1,
+    max_features: Optional[str] = "sqrt",
+) -> pd.DataFrame:
+    X_train = train_df[TREE_FEATURE_COLUMNS]
+    y_train = train_df[TARGET_COLUMN]
+    X_test = test_df[TREE_FEATURE_COLUMNS]
+    y_test = test_df[TARGET_COLUMN]
+
+    model = RandomForestClassifier(
+        n_estimators=n_estimators,
+        random_state=random_state,
+        class_weight=class_weight,
+        max_depth=max_depth,
+        min_samples_leaf=min_samples_leaf,
+        max_features=max_features,
+    )
+    model.fit(X_train, y_train)
+    pred_label = model.predict(X_test)
+
+    out = test_df[["date"]].copy()
+    out["true_label"] = y_test.values
+    out["pred_label"] = pred_label
+    return out
+
+
+def main() -> None:
+    train_df, val_df, test_df = load_features_and_split()
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    for cfg in RF_CONFIGS:
+        name = cfg["name"]
+        pred_df = train_random_forest(
+            train_df,
+            val_df,
+            test_df,
+            max_depth=cfg["max_depth"],
+            min_samples_leaf=cfg["min_samples_leaf"],
+            class_weight=cfg["class_weight"],
+        )
+        out_path = RESULTS_DIR / f"pred_{name.lower()}.csv"
+        pred_df.to_csv(out_path, index=False)
+        print(
+            f"Saved {out_path} "
+            f"({name}: max_depth={cfg['max_depth']}, "
+            f"min_samples_leaf={cfg['min_samples_leaf']}, "
+            f"class_weight={cfg['class_weight']})"
+        )
+
+
+if __name__ == "__main__":
+    main()

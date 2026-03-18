@@ -10,6 +10,21 @@ def classify_three_way(rate: pd.Series) -> pd.Series:
     out[rate.isna()] = pd.NA
     return out
 
+
+def classify_three_way_quantile(
+    rate: pd.Series, lower_q: float = 0.3, upper_q: float = 0.7
+) -> pd.Series:
+    """Quantile-based 3-way labels: bottom -> down, middle -> flat, top -> up."""
+    valid = rate.dropna()
+    if valid.empty:
+        return pd.Series(pd.NA, index=rate.index, dtype="object")
+    low = valid.quantile(lower_q)
+    high = valid.quantile(upper_q)
+    labels = np.where(rate <= low, "down", np.where(rate >= high, "up", "flat"))
+    out = pd.Series(labels, index=rate.index, dtype="object")
+    out[rate.isna()] = pd.NA
+    return out
+
 def calculate_daily_range(df: pd.DataFrame) -> pd.DataFrame:
     return (df['high'] - df['low']) / df['close']
 
@@ -63,6 +78,14 @@ def calculate_target_next_3d_return_rate(df: pd.DataFrame) -> pd.DataFrame:
 
 def calculate_target_next_3d_label(df: pd.DataFrame) -> pd.DataFrame:
     return classify_three_way(df['target_return_rate_next_3d'])
+
+
+def calculate_target_next_day_label_quantile(df: pd.DataFrame) -> pd.Series:
+    return classify_three_way_quantile(df["target_return_rate_next_day"])
+
+
+def calculate_target_next_3d_label_quantile(df: pd.DataFrame) -> pd.Series:
+    return classify_three_way_quantile(df["target_return_rate_next_3d"])
 
 
 def calculate_body_length(df: pd.DataFrame) -> pd.DataFrame:

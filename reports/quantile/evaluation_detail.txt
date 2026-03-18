@@ -1,0 +1,114 @@
+
+=== rf5 ===
+Accuracy: 0.4855
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         39        226       35
+true_flat         46        671      177
+true_up           40        277       46
+
+              precision    recall  f1-score   support
+
+        down       0.31      0.13      0.18       300
+        flat       0.57      0.75      0.65       894
+          up       0.18      0.13      0.15       363
+
+    accuracy                           0.49      1557
+   macro avg       0.35      0.34      0.33      1557
+weighted avg       0.43      0.49      0.44      1557
+
+
+=== rf6 ===
+Accuracy: 0.4823
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         50        211       39
+true_flat         91        652      151
+true_up           52        262       49
+
+              precision    recall  f1-score   support
+
+        down       0.26      0.17      0.20       300
+        flat       0.58      0.73      0.65       894
+          up       0.21      0.13      0.16       363
+
+    accuracy                           0.48      1557
+   macro avg       0.35      0.34      0.34      1557
+weighted avg       0.43      0.48      0.45      1557
+
+
+=== rf_best_fast ===
+Accuracy: 0.5710
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         38        245       17
+true_flat         47        818       29
+true_up           37        293       33
+
+              precision    recall  f1-score   support
+
+        down       0.31      0.13      0.18       300
+        flat       0.60      0.91      0.73       894
+          up       0.42      0.09      0.15       363
+
+    accuracy                           0.57      1557
+   macro avg       0.44      0.38      0.35      1557
+weighted avg       0.50      0.57      0.49      1557
+
+
+=== gb ===
+Accuracy: 0.3558
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         98        120       82
+true_flat        237        354      303
+true_up          113        148      102
+
+              precision    recall  f1-score   support
+
+        down       0.22      0.33      0.26       300
+        flat       0.57      0.40      0.47       894
+          up       0.21      0.28      0.24       363
+
+    accuracy                           0.36      1557
+   macro avg       0.33      0.33      0.32      1557
+weighted avg       0.42      0.36      0.37      1557
+
+
+=== hgb_best_fast ===
+Accuracy: 0.5164
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         63        181       56
+true_flat        105        673      116
+true_up           67        228       68
+
+              precision    recall  f1-score   support
+
+        down       0.27      0.21      0.24       300
+        flat       0.62      0.75      0.68       894
+          up       0.28      0.19      0.23       363
+
+    accuracy                           0.52      1557
+   macro avg       0.39      0.38      0.38      1557
+weighted avg       0.47      0.52      0.49      1557
+
+
+=== lgbm ===
+Accuracy: 0.3571
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down         92        122       86
+true_flat        221        362      311
+true_up          113        148      102
+
+              precision    recall  f1-score   support
+
+        down       0.22      0.31      0.25       300
+        flat       0.57      0.40      0.47       894
+          up       0.20      0.28      0.24       363
+
+    accuracy                           0.36      1557
+   macro avg       0.33      0.33      0.32      1557
+weighted avg       0.42      0.36      0.38      1557
+
