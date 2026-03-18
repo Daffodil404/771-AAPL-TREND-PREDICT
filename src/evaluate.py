@@ -13,6 +13,7 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 
 # 所有要评估的预测文件（名称 -> 文件名）
+# 只保留最终报告中用到的几个 RF 变体
 PRED_FILES = {
     "random": "pred_random.csv",
     "momentum": "pred_momentum.csv",
@@ -20,11 +21,6 @@ PRED_FILES = {
     "logreg_multinomial": "pred_logreg_multinomial.csv",
     "logreg_ovr": "pred_logreg_ovr.csv",
     "lgbm": "pred_lgbm.csv",
-    "rf": "pred_rf.csv",
-    "rf1": "pred_rf1.csv",
-    "rf2": "pred_rf2.csv",
-    "rf3": "pred_rf3.csv",
-    "rf4": "pred_rf4.csv",
     "rf5": "pred_rf5.csv",
     "rf6": "pred_rf6.csv",
     "rf_best_fast": "pred_rf_best_fast.csv",

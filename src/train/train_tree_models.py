@@ -11,12 +11,10 @@ from common import (
 )
 
 
-# RF configs tuned to recover flat while keeping accuracy reasonable.
+# 只保留最终报告中使用的 RF 变体：
+# - RF5: 最优 RF baseline（无 class_weight，max_depth=6, min_samples_leaf=1）
+# - RF6: 与 RF5 类似但更深/更大的叶子，用于对比无 class_weight 情况下的不同复杂度
 RF_CONFIGS = [
-    {"name": "RF1", "max_depth": 5, "min_samples_leaf": 1, "class_weight": "balanced"},
-    {"name": "RF2", "max_depth": 8, "min_samples_leaf": 1, "class_weight": "balanced"},
-    {"name": "RF3", "max_depth": 10, "min_samples_leaf": 2, "class_weight": "balanced"},
-    {"name": "RF4", "max_depth": None, "min_samples_leaf": 2, "class_weight": "balanced_subsample"},
     {"name": "RF5", "max_depth": 6, "min_samples_leaf": 1, "class_weight": None},
     {"name": "RF6", "max_depth": 8, "min_samples_leaf": 2, "class_weight": None},
 ]
