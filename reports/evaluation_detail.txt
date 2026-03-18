@@ -171,20 +171,20 @@ weighted avg       0.42      0.39      0.33      1557
 
 
 === rf_best_slow ===
-Accuracy: 0.3849
+Accuracy: 0.3847
 Confusion matrix:
            pred_down  pred_flat  pred_up
-true_down         80        303       71
-true_flat         36        422       45
-true_up           79        425       98
+true_down        151        186      116
+true_flat         92        270      140
+true_up          171        253      178
 
               precision    recall  f1-score   support
 
-        down       0.41      0.18      0.25       454
-        flat       0.37      0.84      0.51       503
-          up       0.46      0.16      0.24       602
+        down       0.36      0.33      0.35       453
+        flat       0.38      0.54      0.45       502
+          up       0.41      0.30      0.34       602
 
-    accuracy                           0.38      1559
-   macro avg       0.41      0.39      0.33      1559
-weighted avg       0.41      0.38      0.33      1559
+    accuracy                           0.38      1557
+   macro avg       0.39      0.39      0.38      1557
+weighted avg       0.39      0.38      0.38      1557
 

@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from base import *
 from rolling import *
-# Label rule (eps = 0.002):
+# Label rule (eps = 0.005):
 # up: return_rate > eps
 # down: return_rate < -eps
 # flat: otherwise

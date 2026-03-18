@@ -27,6 +27,6 @@ Predict next-day trend for AAPL as 3 classes: `up`, `down`, `flat`.
 6. `src/evaluate.py`
 
 ## Immediate Next Steps
-1. Decide the `flat` threshold (e.g. `abs(return) < 0.2%`).
+1. Decide the `flat` threshold (e.g. `abs(return) < 0.5%`).
 2. Download AAPL historical OHLCV data into `data/raw/`.
 3. Implement preprocessing and generate `data/processed/aapl_clean.csv`.

@@ -9,7 +9,7 @@
   - 成交量特征：`volume_5`, `volume_10`, `volume_20`
   - K 线形态特征：`body_length`, `upper_shadow_length`, `lower_shadow_length`
 - **标签定义**: 预测目标为**下一交易日收盘价相对当日收盘价的方向**：
-  - 使用 `daily_return_rate` 与阈值 `flat_threshold = 0.002`（约 0.2%）定义 `up / down / flat`
+  - 使用 `daily_return_rate` 与阈值 `flat_threshold = 0.005`（约 0.5%）定义 `up / down / flat`
   - 主标签列：`target_label_next_day`（并在部分流程中保留别名 `label` 保持兼容）
 
 ### 2. EDA 与数据划分
@@ -105,4 +105,3 @@
   - 引入外部市场信息（纳斯达克指数收益、VIX、财报日期等），在 `features.py` 里按日期对齐后加入特征；
   - 尝试非线性模型（如 Random Forest / XGBoost）并通过验证集选择超参数；
   - 针对 `down` 类召回偏低的问题，进一步平衡 precision/recall（例如基于验证集调节 class_weight 或决策阈值），并在报告中展示 trade-off。
-

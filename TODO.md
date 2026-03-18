@@ -2,7 +2,7 @@
 
 ## Setup
 - [ ] Confirm task window and data period
-- [ ] Set 3-class label rule (`up/down/flat`) and `flat` threshold
+- [x] Set 3-class label rule (`up/down/flat`) and `flat` threshold = 0.005
 
 ## Data
 - [ ] Get AAPL historical OHLCV data

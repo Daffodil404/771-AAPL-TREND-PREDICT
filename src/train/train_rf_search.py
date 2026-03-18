@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 import argparse
 
 import pandas as pd
@@ -77,8 +77,8 @@ def main() -> None:
 
     rows: list[dict[str, Any]] = []
     best_key = (-1.0, -1.0, -1.0)
-    best_params: dict[str, Any] | None = None
-    best_model: RandomForestClassifier | None = None
+    best_params: Optional[dict[str, Any]] = None
+    best_model: Optional[RandomForestClassifier] = None
 
     for params in ParameterGrid(param_grid):
         model = RandomForestClassifier(**params)

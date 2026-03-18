@@ -1,6 +1,7 @@
 """Shared paths, constants, and helpers for training scripts."""
 
 from pathlib import Path
+from typing import Optional
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]  # repo root (src/train/ -> 2 up)
@@ -46,7 +47,7 @@ def time_split(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFra
 
 
 def load_features_and_split(
-    feature_path: Path | None = None,
+    feature_path: Optional[Path] = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Load aapl_features.csv, parse date, dropna, sort, and return train/val/test."""
     if feature_path is None:

@@ -1,6 +1,7 @@
 """Train tree-based models (Random Forest) for 3-class trend prediction."""
 
 import pandas as pd
+from typing import Optional
 from sklearn.ensemble import RandomForestClassifier
 
 from common import (
@@ -26,11 +27,11 @@ def train_random_forest(
     test_df: pd.DataFrame,
     *,
     random_state: int = 42,
-    class_weight: str = None,
+    class_weight: Optional[str] = None,
     n_estimators: int = 300,
-    max_depth: int | None = None,
+    max_depth: Optional[int] = None,
     min_samples_leaf: int = 1,
-    max_features: str | None = "sqrt",
+    max_features: Optional[str] = "sqrt",
 ) -> pd.DataFrame:
     """Fit Random Forest on train, predict on test; return pred DataFrame (date, true_label, pred_label)."""
     X_train = train_df[FEATURE_COLUMNS]
