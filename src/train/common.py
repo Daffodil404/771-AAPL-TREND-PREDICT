@@ -18,13 +18,19 @@ FEATURE_COLUMNS = [
     "volatility_5",
     "volatility_10",
     "volatility_20",
+    "volatility_30",
     "volume_5",
     "body_length",
     "return_3",
     "return_5",
+    "return_10",
     "rsi_14",
     "macd",
     "ma_ratio_5_21",
+    "return_3_volatility_5",
+    "nasdaq_return_1",
+    "nasdaq_return_5",
+    "relative_strength",
 ]
 
 

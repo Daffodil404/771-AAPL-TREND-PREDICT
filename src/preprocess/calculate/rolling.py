@@ -20,4 +20,6 @@ def calculate_volatility_10(df: pd.DataFrame) -> pd.DataFrame:
 def calculate_volatility_20(df: pd.DataFrame) -> pd.DataFrame:
     return df['daily_return_rate'].rolling(window=20).std()
 
+def calculate_volatility_30(df: pd.DataFrame) -> pd.DataFrame:
+    return df['daily_return_rate'].rolling(window=30).std()
 

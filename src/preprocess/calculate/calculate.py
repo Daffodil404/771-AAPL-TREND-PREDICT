@@ -30,14 +30,17 @@ def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out['volatility_5'] = calculate_volatility_5(out)
     out['volatility_10'] = calculate_volatility_10(out)
     out['volatility_20'] = calculate_volatility_20(out)
+    out['volatility_30'] = calculate_volatility_30(out)
     out['body_length'] = calculate_body_length(out)
     out['upper_shadow_length'] = calculate_upper_shadow(out)
     out['lower_shadow_length'] = calculate_lower_shadow(out)
     out['return_3'] = calculate_return_rate_n(out, 3)
     out['return_5'] = calculate_return_rate_n(out, 5)
+    out['return_10'] = calculate_return_rate_n(out, 10)
     out['rsi_14'] = calculate_rsi_14(out)
     out['macd'] = calculate_macd(out)
     out['ma_ratio_5_21'] = calculate_ma_ratio_5_21(out)
+    out['return_3_volatility_5'] = out['return_3'] * out['volatility_5']
 
     # Main supervised target: next-day adjusted-close-to-adjusted-close trend.
     out['target_return_next_day'] = calculate_target_next_day_return(out)
