@@ -19,6 +19,7 @@ PRED_FILES = {
     "rf5": "pred_rf5.csv",
     "rf6": "pred_rf6.csv",
     "rf_best_fast": "pred_rf_best_fast.csv",
+    "rf_best_slow": "pred_rf_best_slow.csv",
     "gb": "pred_gb.csv",
     "hgb_best_fast": "pred_hgb_best_fast.csv",
     "lgbm": "pred_lgbm.csv",

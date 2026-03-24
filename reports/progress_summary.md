@@ -105,3 +105,35 @@
   - 引入外部市场信息（纳斯达克指数收益、VIX、财报日期等），在 `features.py` 里按日期对齐后加入特征；
   - 尝试非线性模型（如 Random Forest / XGBoost）并通过验证集选择超参数；
   - 针对 `down` 类召回偏低的问题，进一步平衡 precision/recall（例如基于验证集调节 class_weight 或决策阈值），并在报告中展示 trade-off。
+
+---
+
+## AAPL 趋势预测项目进度总结（更新版，2026-03-22）
+
+### 1. 数据与特征（新增/扩展）
+
+- 新增外部市场数据：纳斯达克指数数据已对齐并保存于 `data/processed/nasdaq_ixic.csv`。
+- 3 日收益版本特征：`src/features_3d.py` 生成 `data/processed/aapl_features_3d.csv`。
+- 分位数版本特征：`src/features_quantile.py` 生成 `data/processed/quantile/aapl_features.csv`。
+
+### 2. 模型体系扩展
+
+- 树模型与集成方法已实现并批量训练：Random Forest、GBM、HGB、LightGBM、SVM、Ensemble。
+- 对应训练脚本集中在 `src/train/*`，包括 `train_rf_search.py`、`train_tree_models.py`、`train_gb.py`、`train_hgb_search.py`、`train_lightgbm.py`、`train_svm.py`、`train_ensemble.py`。
+- 预测输出集中于 `results/`，例如 `pred_rf_best_fast.csv`、`pred_gb.csv`、`pred_hgb_best_fast.csv`、`pred_lgbm.csv`、`pred_svm_linear.csv`、`pred_ensemble.csv`。
+
+### 3. 变体实验（新增）
+
+- **3 日收益预测任务**：独立训练管线 `src/train/3d/*`，结果与评估在 `results/3-day-return/` 与 `reports/3-day-return/`。
+- **分位数预测任务**：独立训练管线 `src/train/quantile/*`，结果与评估在 `results/quantile/` 与 `reports/quantile/`。
+
+### 4. 评估与对比（新增）
+
+- 主任务评估汇总仍在 `reports/evaluation_accuracy.csv`、`reports/evaluation_detail.txt`、`reports/evaluation_score.csv`。
+- 子阶段/分段评估已加入：`src/evaluate_subperiod.py` 输出 `reports/evaluation_subperiod.csv` 与 `reports/evaluation_subperiod.txt`。
+- 3 日收益与分位数版本的评估报告：`reports/3-day-return/*` 与 `reports/quantile/*`。
+
+### 5. 当前阶段成果小结（对比用）
+
+- **阶段一（旧版总结）**：完成数据清洗、基础特征、EDA、基线方法与 Logistic Regression，并形成统一评估脚本。
+- **阶段二（更新内容）**：扩展为多模型体系（树模型/GBM/HGB/LGBM/SVM/Ensemble），新增 3 日收益与分位数两套变体实验，并补充分段评估与更完整的结果产出目录。
