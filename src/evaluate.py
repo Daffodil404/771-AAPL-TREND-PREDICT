@@ -33,6 +33,13 @@ PRED_FILES = {
     "hgb_grid_search_fast": "pred_hgb_grid_search_fast.csv",
 }
 
+# Optional filter: comma-separated method names
+import os as _os
+_methods_env = _os.getenv("PIPELINE_METHODS", "").strip()
+if _methods_env:
+    _allowed = {m.strip() for m in _methods_env.split(",") if m.strip()}
+    PRED_FILES = {k: v for k, v in PRED_FILES.items() if k in _allowed}
+
 
 def evaluate_one(pred_path: Path) -> tuple[float, float, float, pd.DataFrame, str]:
     """读一个预测文件，返回 (accuracy, macro_recall, min_recall, confusion_df, report_str)。"""
@@ -55,6 +62,7 @@ def evaluate_one(pred_path: Path) -> tuple[float, float, float, pd.DataFrame, st
 
 def main() -> None:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    no_reports = _os.getenv("PIPELINE_NO_REPORTS", "").strip() in {"1", "true", "yes", "y"}
 
     rows = []
     score_rows = []
@@ -95,8 +103,9 @@ def main() -> None:
         print("\n" + "=" * 50)
         print("Accuracy comparison")
         print(acc_df.to_string(index=False))
-        acc_df.to_csv(REPORTS_DIR / "evaluation_accuracy.csv", index=False)
-        print(f"\nSaved {REPORTS_DIR / 'evaluation_accuracy.csv'}")
+        if not no_reports:
+            acc_df.to_csv(REPORTS_DIR / "evaluation_accuracy.csv", index=False)
+            print(f"\nSaved {REPORTS_DIR / 'evaluation_accuracy.csv'}")
 
     score_df = pd.DataFrame(score_rows)
     if not score_df.empty:
@@ -104,18 +113,20 @@ def main() -> None:
         print("\n" + "=" * 50)
         print("Score comparison")
         print(score_df.to_string(index=False))
-        score_df.to_csv(REPORTS_DIR / "evaluation_score.csv", index=False)
-        print(f"\nSaved {REPORTS_DIR / 'evaluation_score.csv'}")
+        if not no_reports:
+            score_df.to_csv(REPORTS_DIR / "evaluation_score.csv", index=False)
+            print(f"\nSaved {REPORTS_DIR / 'evaluation_score.csv'}")
 
     # 可选：把每个方法的混淆矩阵和 report 也存一份
-    with open(REPORTS_DIR / "evaluation_detail.txt", "w", encoding="utf-8") as f:
-        for name, acc, cm_df, report_str in all_reports:
-            f.write(f"\n=== {name} ===\n")
-            f.write(f"Accuracy: {acc:.4f}\n")
-            f.write("Confusion matrix:\n")
-            f.write(cm_df.to_string() + "\n\n")
-            f.write(report_str + "\n")
-    print(f"Saved {REPORTS_DIR / 'evaluation_detail.txt'}")
+    if not no_reports:
+        with open(REPORTS_DIR / "evaluation_detail.txt", "w", encoding="utf-8") as f:
+            for name, acc, cm_df, report_str in all_reports:
+                f.write(f"\n=== {name} ===\n")
+                f.write(f"Accuracy: {acc:.4f}\n")
+                f.write("Confusion matrix:\n")
+                f.write(cm_df.to_string() + "\n\n")
+                f.write(report_str + "\n")
+        print(f"Saved {REPORTS_DIR / 'evaluation_detail.txt'}")
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ import pandas as pd
 from typing import Optional
 from sklearn.ensemble import RandomForestClassifier
 
-from common_quantile import (
+from src.train.quantile.common_quantile import (
     RESULTS_DIR,
     TARGET_COLUMN,
     TREE_FEATURE_COLUMNS,

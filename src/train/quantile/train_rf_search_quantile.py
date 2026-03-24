@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, balanced_accuracy_score
 from sklearn.model_selection import ParameterGrid
 
-from common_quantile import (
+from src.train.quantile.common_quantile import (
     RESULTS_DIR,
     TARGET_COLUMN,
     TREE_FEATURE_COLUMNS,

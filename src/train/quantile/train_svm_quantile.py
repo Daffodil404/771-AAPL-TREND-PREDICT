@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 
-from .common_quantile import (
+from src.train.quantile.common_quantile import (
     FEATURE_COLUMNS,
     RESULTS_DIR,
     TARGET_COLUMN,
@@ -41,4 +41,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

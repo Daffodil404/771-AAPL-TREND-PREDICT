@@ -3,7 +3,7 @@
 import pandas as pd
 import lightgbm as lgb
 
-from common_quantile import (
+from src.train.quantile.common_quantile import (
     RESULTS_DIR,
     TARGET_COLUMN,
     TREE_FEATURE_COLUMNS,

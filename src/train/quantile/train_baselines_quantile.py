@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from .common_quantile import (
+from src.train.quantile.common_quantile import (
     PROCESSED_DIR,
     RESULTS_DIR,
     TARGET_COLUMN,
@@ -86,4 +86,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
