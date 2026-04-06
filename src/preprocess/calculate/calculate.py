@@ -3,6 +3,7 @@ import numpy as np
 from pathlib import Path
 from base import *
 from rolling import *
+from earnings_yfinance import add_earnings_features, load_or_fetch_earnings_dates
 # Label rule (eps = 0.005):
 # up: return_rate > eps
 # down: return_rate < -eps
@@ -10,10 +11,14 @@ from rolling import *
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]  # repo root (src/preprocess/calculate/ -> 3 up)
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+EARNINGS_CACHE = PROCESSED_DIR / "aapl_earnings_dates.csv"
+DEFAULT_TICKER = "AAPL"
 
 
 def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out = df.copy()
+    ed = load_or_fetch_earnings_dates(DEFAULT_TICKER, EARNINGS_CACHE)
+    out = add_earnings_features(out, ed)
     out['intraday_return'] = calculate_intraday_returns(out)
     out['intraday_return_rate'] = calculate_intraday_return_rate(out)
     out['intraday_label'] = calculate_intraday_labels(out)

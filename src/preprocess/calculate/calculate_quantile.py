@@ -2,13 +2,18 @@ import pandas as pd
 from pathlib import Path
 from base import *
 from rolling import *
+from earnings_yfinance import add_earnings_features, load_or_fetch_earnings_dates
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]  # repo root (src/preprocess/calculate/ -> 3 up)
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed" / "quantile"
+EARNINGS_CACHE = PROJECT_ROOT / "data" / "processed" / "aapl_earnings_dates.csv"
+DEFAULT_TICKER = "AAPL"
 
 
 def output_data(df: pd.DataFrame, output_path: Path) -> None:
     out = df.copy()
+    ed = load_or_fetch_earnings_dates(DEFAULT_TICKER, EARNINGS_CACHE)
+    out = add_earnings_features(out, ed)
     out["intraday_return"] = calculate_intraday_returns(out)
     out["intraday_return_rate"] = calculate_intraday_return_rate(out)
     out["intraday_label"] = calculate_intraday_labels(out)

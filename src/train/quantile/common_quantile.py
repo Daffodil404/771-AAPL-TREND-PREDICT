@@ -31,6 +31,9 @@ FEATURE_COLUMNS = [
     "nasdaq_return_1",
     "nasdaq_return_5",
     "relative_strength",
+    "is_earnings_date",
+    "days_since_earnings",
+    "days_until_earnings",
 ]
 
 TREE_FEATURE_COLUMNS = [
