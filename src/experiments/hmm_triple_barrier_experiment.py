@@ -19,7 +19,10 @@ import pandas as pd
 import lightgbm as lgb
 from sklearn.metrics import accuracy_score, recall_score, classification_report
 from sklearn.model_selection import TimeSeriesSplit
-from sklearn.preprocessing import StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import RidgeClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 try:
     from hmmlearn.hmm import GaussianHMM
@@ -269,6 +272,90 @@ def evaluate_predictions(y_true: pd.Series, y_pred: pd.Series) -> dict[str, floa
     }
 
 
+def run_tscv_ridge(
+    df: pd.DataFrame,
+    *,
+    include_regime: bool,
+    include_confidence: bool,
+    config: ExperimentConfig,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    features = experiment_features(include_regime)
+    if not include_confidence and "regime_confidence" in features:
+        features = [col for col in features if col != "regime_confidence"]
+    cols = ["date", "target_tb_next_day"] + features
+    work = df[cols].dropna().copy()
+    work["target_tb_next_day"] = pd.Categorical(work["target_tb_next_day"], categories=LABELS)
+
+    categorical_cols = ["regime_id"] if include_regime else []
+    numeric_cols = [col for col in features if col not in categorical_cols]
+    if include_regime:
+        work["regime_id"] = work["regime_id"].astype(int).astype(str)
+
+    X = work[features]
+    y = work["target_tb_next_day"]
+    tscv = TimeSeriesSplit(n_splits=config.n_splits)
+    fold_rows = []
+    pred_parts = []
+
+    for fold_id, (train_idx, test_idx) in enumerate(tscv.split(X), start=1):
+        train_end = int(len(train_idx) * 0.85)
+        inner_train_idx = train_idx[:train_end]
+        val_idx = train_idx[train_end:]
+        if len(val_idx) == 0:
+            continue
+
+        X_train = X.iloc[inner_train_idx].copy()
+        y_train = y.iloc[inner_train_idx].copy()
+        X_test = X.iloc[test_idx].copy()
+        y_test = y.iloc[test_idx].copy()
+
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ("num", StandardScaler(), numeric_cols),
+                ("regime", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+            ],
+            remainder="drop",
+        )
+        model = Pipeline(
+            steps=[
+                ("preprocessor", preprocessor),
+                ("classifier", RidgeClassifier(alpha=1.0, class_weight="balanced")),
+            ]
+        )
+        model.fit(X_train, y_train)
+        pred = pd.Series(model.predict(X_test), index=y_test.index)
+        metrics = evaluate_predictions(y_test, pred)
+        variant = "ridge_base"
+        if include_regime and include_confidence:
+            variant = "ridge_plus_regime_conf"
+        elif include_regime:
+            variant = "ridge_plus_regime"
+        fold_rows.append(
+            {
+                "variant": variant,
+                "fold": fold_id,
+                "train_n": len(X_train),
+                "val_n": len(val_idx),
+                "test_n": len(X_test),
+                "best_iteration": 0,
+                **metrics,
+            }
+        )
+        pred_parts.append(
+            pd.DataFrame(
+                {
+                    "date": work.loc[y_test.index, "date"].values,
+                    "variant": variant,
+                    "fold": fold_id,
+                    "true_label": y_test.astype(str).values,
+                    "pred_label": pred.astype(str).values,
+                }
+            )
+        )
+
+    return pd.DataFrame(fold_rows), pd.concat(pred_parts, ignore_index=True) if pred_parts else pd.DataFrame()
+
+
 def run_tscv_lightgbm(df: pd.DataFrame, *, include_regime: bool, config: ExperimentConfig) -> tuple[pd.DataFrame, pd.DataFrame]:
     features = experiment_features(include_regime)
     cols = ["date", "target_tb_next_day"] + features
@@ -370,15 +457,45 @@ def main() -> None:
 
     base_rows, base_preds = run_tscv_lightgbm(df, include_regime=False, config=config)
     regime_rows, regime_preds = run_tscv_lightgbm(df, include_regime=True, config=config)
+    ridge_base_rows, ridge_base_preds = run_tscv_ridge(
+        df,
+        include_regime=False,
+        include_confidence=False,
+        config=config,
+    )
+    ridge_regime_rows, ridge_regime_preds = run_tscv_ridge(
+        df,
+        include_regime=True,
+        include_confidence=False,
+        config=config,
+    )
+    ridge_regime_conf_rows, ridge_regime_conf_preds = run_tscv_ridge(
+        df,
+        include_regime=True,
+        include_confidence=True,
+        config=config,
+    )
 
     base_rows.to_csv(RESULTS_DIR / "fold_metrics_base.csv", index=False)
     regime_rows.to_csv(RESULTS_DIR / "fold_metrics_base_plus_regime.csv", index=False)
+    ridge_base_rows.to_csv(RESULTS_DIR / "fold_metrics_ridge_base.csv", index=False)
+    ridge_regime_rows.to_csv(RESULTS_DIR / "fold_metrics_ridge_plus_regime.csv", index=False)
+    ridge_regime_conf_rows.to_csv(RESULTS_DIR / "fold_metrics_ridge_plus_regime_conf.csv", index=False)
     if not base_preds.empty:
         base_preds.to_csv(RESULTS_DIR / "predictions_base.csv", index=False)
     if not regime_preds.empty:
         regime_preds.to_csv(RESULTS_DIR / "predictions_base_plus_regime.csv", index=False)
+    if not ridge_base_preds.empty:
+        ridge_base_preds.to_csv(RESULTS_DIR / "predictions_ridge_base.csv", index=False)
+    if not ridge_regime_preds.empty:
+        ridge_regime_preds.to_csv(RESULTS_DIR / "predictions_ridge_plus_regime.csv", index=False)
+    if not ridge_regime_conf_preds.empty:
+        ridge_regime_conf_preds.to_csv(RESULTS_DIR / "predictions_ridge_plus_regime_conf.csv", index=False)
 
-    summary = save_summary(base_rows, regime_rows)
+    summary = save_summary(
+        pd.concat([base_rows, ridge_base_rows], ignore_index=True),
+        pd.concat([regime_rows, ridge_regime_rows, ridge_regime_conf_rows], ignore_index=True),
+    )
     with open(RESULTS_DIR / "report.txt", "w", encoding="utf-8") as f:
         f.write("HMM Regime + Triple Barrier Experiment\n")
         f.write("=" * 40 + "\n\n")
@@ -395,6 +512,9 @@ def main() -> None:
         for name, rows, preds in [
             ("base", base_rows, base_preds),
             ("base_plus_regime", regime_rows, regime_preds),
+            ("ridge_base", ridge_base_rows, ridge_base_preds),
+            ("ridge_plus_regime", ridge_regime_rows, ridge_regime_preds),
+            ("ridge_plus_regime_conf", ridge_regime_conf_rows, ridge_regime_conf_preds),
         ]:
             f.write(f"[{name}]\n")
             if rows.empty or preds.empty:
