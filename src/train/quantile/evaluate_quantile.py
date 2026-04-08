@@ -12,6 +12,7 @@ PRED_FILES = {
     "random": "pred_random.csv",
     "momentum": "pred_momentum.csv",
     "ma": "pred_ma.csv",
+    "ridge": "pred_ridge.csv",
     "logreg_multinomial": "pred_logreg_multinomial.csv",
     "logreg_ovr": "pred_logreg_ovr.csv",
     "svm_linear": "pred_svm_linear.csv",

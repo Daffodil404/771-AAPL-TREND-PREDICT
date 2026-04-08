@@ -21,6 +21,7 @@ done
 echo
 OPTIONS=(
   "baselines_random_momentum_ma"
+  "ridge"
   "logreg_multinomial_ovr"
   "svm_linear"
   "rf5_rf6"
@@ -99,6 +100,10 @@ set_model() {
       build_cmd "train_baselines"
       PRED_FILES=("pred_random.csv" "pred_momentum.csv" "pred_ma.csv")
       ;;
+    ridge)
+      build_cmd "train_ridge"
+      PRED_FILES=("pred_ridge.csv")
+      ;;
     logreg_multinomial_ovr)
       build_cmd "train_logreg"
       PRED_FILES=("pred_logreg_multinomial.csv" "pred_logreg_ovr.csv")
@@ -144,6 +149,7 @@ set_model() {
 eval_methods_for_model() {
   case "$1" in
     baselines_random_momentum_ma) echo "random,momentum,ma" ;;
+    ridge) echo "ridge" ;;
     logreg_multinomial_ovr) echo "logreg_multinomial,logreg_ovr" ;;
     svm_linear) echo "svm_linear" ;;
     rf5_rf6) echo "rf5,rf6" ;;

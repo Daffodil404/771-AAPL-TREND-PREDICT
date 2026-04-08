@@ -56,6 +56,25 @@ true_up          208          0      394
 weighted avg       0.25      0.37      0.29      1557
 
 
+=== ridge ===
+Accuracy: 0.4098
+Confusion matrix:
+           pred_down  pred_flat  pred_up
+true_down        104        178      171
+true_flat         61        308      133
+true_up          116        260      226
+
+              precision    recall  f1-score   support
+
+        down       0.37      0.23      0.28       453
+        flat       0.41      0.61      0.49       502
+          up       0.43      0.38      0.40       602
+
+    accuracy                           0.41      1557
+   macro avg       0.40      0.41      0.39      1557
+weighted avg       0.41      0.41      0.40      1557
+
+
 === logreg_multinomial ===
 Accuracy: 0.3931
 Confusion matrix:
