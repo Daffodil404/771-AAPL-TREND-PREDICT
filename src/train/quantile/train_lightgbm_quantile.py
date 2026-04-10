@@ -15,22 +15,35 @@ def main() -> None:
     train_df, val_df, test_df = load_features_and_split()
     X_train = train_df[TREE_FEATURE_COLUMNS]
     y_train = train_df[TARGET_COLUMN]
+    X_val = val_df[TREE_FEATURE_COLUMNS]
+    y_val = val_df[TARGET_COLUMN]
     X_test = test_df[TREE_FEATURE_COLUMNS]
     y_test = test_df[TARGET_COLUMN]
 
     label_map = {"down": 0, "flat": 1, "up": 2}
     y_train_num = y_train.map(label_map)
+    y_val_num = y_val.map(label_map)
 
     model = lgb.LGBMClassifier(
         objective="multiclass",
         num_class=3,
-        learning_rate=0.05,
-        n_estimators=300,
+        learning_rate=0.03,
+        n_estimators=1000,
         max_depth=6,
+        num_leaves=31,
+        min_child_samples=20,
+        reg_alpha=0.0,
+        reg_lambda=1.0,
         random_state=42,
     )
-    model.fit(X_train, y_train_num)
-    pred_num = model.predict(X_test)
+    model.fit(
+        X_train,
+        y_train_num,
+        eval_set=[(X_val, y_val_num)],
+        eval_metric="multi_logloss",
+        callbacks=[lgb.early_stopping(stopping_rounds=50, verbose=False)],
+    )
+    pred_num = model.predict(X_test, num_iteration=model.best_iteration_)
     inv_label_map = {v: k for k, v in label_map.items()}
     pred_label = pd.Series(pred_num).map(inv_label_map).values
 
